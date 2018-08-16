@@ -1,6 +1,6 @@
 import pymysql
 from Interpreter import interpret_trade_o32
-from Interpreter import excel_to_dict
+from Interpreter import file_to_dict
 #connect
 def connect_wxremit_db():
     return pymysql.connect(host='localhost',
@@ -59,14 +59,16 @@ def insert_trade_o32(insertdata):
 #generally insert python dict to mysql(generally method)
 #insert_length_column indicates the length of insert data.
 
-def pydic_insert_to_mysql(insert_data,insert_table,insert_length_column):
+def pydic_insert_to_mysql(insert_data,insert_table,insert_length_column,start_row=0):
     con = connect_wxremit_db()
     cur = con.cursor()
-    for i in range(1,len(insert_data[insert_length_column])):
+    for i in range(start_row,len(insert_data[insert_length_column])):
         sql_str = str("insert into " + insert_table + "(" + ",".join(insert_data.keys()) + ") values("+
                     "'%s',"*(len(insert_data.keys())-1)+"'%s')")
         re_str=','.join(["insert_data['%s'][i]" % k for k in insert_data.keys()])
         ex_sql_str=sql_str % eval(re_str)
+        #print re_str
+        #print ex_sql_str
         try:
             cur.execute(ex_sql_str)
         except:

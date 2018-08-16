@@ -2,6 +2,8 @@
 import xlrd
 import xlwt
 import datetime
+from dbfread import DBF
+from pandas import DataFrame
 
 def find_the_column(table, col_name,found_col_num="NA"):
     for i in range(table.ncols):
@@ -50,25 +52,35 @@ def interpret_trade_o32(filename=u'综合信息查询_成交回报810.xls',data_
 
 #excel to mysql 字段匹配关系
 
-relation_dict={'trade_date':'发生日期','fund_id':'账户编号','fund_name':'账户名称','sec_id':'证券代码','sec_name':'证券名称',
-               'trade_direct':'委托方向','trade_volume':'成交数量','trade_amount':'发生金额(全价)'}
+#relation_dict={'trade_date':'发生日期','fund_id':'账户编号','fund_name':'账户名称','sec_id':'证券代码','sec_name':'证券名称',
+#             'trade_direct':'委托方向','trade_volume':'成交数量','trade_amount':'发生金额(全价)'}
 
 ###################################################
 #generally convert excel data to python dict(new method,generally)
 
-def excel_to_dict(relation_dict,filename=u'综合信息查询_成交回报815.xls',data_dict = {},clear_null=1,clear_num_key='trade_date'):
-    data = xlrd.open_workbook(filename)
-    table = data.sheet_by_index(0)
-    for key in relation_dict.keys():
-        data_dict[key]=table.col_values(find_the_column(table, relation_dict[key]))
-    if clear_null==1:
-        dict_null_clear(data_dict, clear_num_key)
-    return data_dict
+def file_to_dict(relation_dict,filename=u'综合信息查询_成交回报815.xls',
+                  clear_null=0,clear_num_key='trade_date',file_type='Excel'):
+    data_dict = {}
+    if file_type=='Excel':
+        data = xlrd.open_workbook(filename)
+        table = data.sheet_by_index(0)
+        for key in relation_dict.keys():
+            data_dict[key] = table.col_values(find_the_column(table, relation_dict[key]))[1:]
+        if clear_null == 1:
+            dict_null_clear(data_dict, clear_num_key)
+        return data_dict
+    elif file_type=="DBF":
+        dbf = DBF(filename)
+        frame = DataFrame(iter(dbf))
+        for k in relation_dict.keys():
+            data_dict[k] = list(frame[relation_dict[k]])
+        return data_dict
+    else:
+        raise Exception,'Invalid file type!'
+
 
 
 if __name__ == '__main__':
-    data=excel_to_dict(relation_dict)
-    print data
-
+    pass
 
 
