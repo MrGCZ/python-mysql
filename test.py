@@ -20,7 +20,7 @@ for k in relation_dict_sjsjg.keys():
 
 print dict
 
-'''
+
 from dbfread import DBF
 from pandas import DataFrame
 from Data_Dict import relation_dict_sjsjg
@@ -37,5 +37,8 @@ for k in relation_dict_sjsjg.keys():
 print dict['JGJSZH']
 print len(dict['JGJSZH'])
 
+'''
 
 
+a={'ab':[1,23,31,1,2],'cd':[1,3,4,6,3],'hf':[14,2,1,2,5]}
+print a.keys()[0]

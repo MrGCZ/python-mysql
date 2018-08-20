@@ -31,5 +31,7 @@ JGQSRQ char(8),
 JGJSRQ char(8),
 JGFSRQ char(8),
 JGQTRQ char(8),
-JGJYFS char(2)
+JGJYFS char(2),
+UPDATE_TIME datetime default now(),
+primary key(ID)
 )
