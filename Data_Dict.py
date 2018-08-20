@@ -41,3 +41,14 @@ relation_dict_sjsjg={
 'JGJYFS':'JGJYFS'
 }
 
+jsmx_li=['SCDM','JLLX','JYFS','JSFS','YWLX','QSBZ','GHLX','JSBH',
+'CJBH','SQBH','WTBH','JYRQ','QSRQ','JSRQ','QTRQ','WTSJ','CJSJ',
+'XWH1','XWH2','XWHY','JSHY','TGHY','ZQZH','ZQDM1','ZQDM2','ZQLB',
+'LTLX','QYLB','GPNF','MMBZ','SL','CJSL','ZJZH','BZ','JG1','JG2',
+'QSJE','YHS','JSF','GHF','ZGF','SXF','QTJE1','QTJE2','QTJE3','SJSF',
+'JGDM','FJSM',
+]
+
+
+
+

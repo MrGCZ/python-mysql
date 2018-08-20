@@ -6,21 +6,34 @@ from dbfread import DBF
 from pandas import DataFrame
 import pymysql
 import Data_Dict
+from dbfpy import dbf
+import os
+
 
 
 
 class File_Insert_To_PyDicLi(object):
 
-    def __init__(self,filename,file_db_relation):
+    def __init__(self,filename,file_db_relation,relation_li=False):
         self.filename=filename
-        self.file_db_relation=file_db_relation
+        if relation_li==False:
+            self.file_db_relation = file_db_relation
+        else:
+            self.file_db_relation=self.litodic(file_db_relation)
 
     def __str__(self):
         show_name= 'From file %s in relation with %s' % (self.filename,self.file_db_relation)
         return show_name
 
+    @staticmethod
+    def litodic(list):
+        dict = {}
+        for li in list:
+            dict[li] = li
+        return dict
+
 #convert file to python dict-list data structure
-    def file_to_dict(self,clear_null=0, clear_num_key='trade_date', file_type='Excel'):
+    def file_to_dict(self,clear_null=0, clear_num_key='trade_date', file_type='Excel',del_key='',multifile_mode=False):
 
         def find_the_column(table, col_name, found_col_num="NA"):
             for i in range(table.ncols):
@@ -38,6 +51,13 @@ class File_Insert_To_PyDicLi(object):
                         del dict[k][i]
 
         data_dict = {}
+        file_li=[]
+        if multifile_mode==True:
+            filename = os.listdir(os.getcwd())
+            for fn in filename:
+                if fn.startswith(self.filename):
+                    file_li.append(fn)
+
         if file_type == 'Excel':
             data = xlrd.open_workbook(self.filename)
             table = data.sheet_by_index(0)
@@ -46,20 +66,31 @@ class File_Insert_To_PyDicLi(object):
                 #[1:] cause first row is always title.
             if clear_null == 1:
                 dict_null_clear(data_dict, clear_num_key)
-            return data_dict
         elif file_type == "DBF":
-            dbf = DBF(self.filename)
-            frame = DataFrame(iter(dbf))
+            dbffile = DBF(self.filename)
+            frame = DataFrame(iter(dbffile))
             for k in self.file_db_relation.keys():
                 data_dict[k] = list(frame[self.file_db_relation[k]])
-            return data_dict
+        elif file_type=="DBF2":  #It's available when multifile_mode=True
+            for file in file_li:
+                print file
+                dbffile = dbf.Dbf(file, readOnly=True)
+                for fn in dbffile.fieldNames:
+                    li = []
+                    for i in range(0, len(dbffile)):
+                        li.append(dbffile[i][fn].strip())
+                    data_dict[fn]=data_dict.setdefault(fn,[])+li
         else:
             raise Exception, 'Invalid file type!'
+        if not del_key=='':
+            del data_dict[del_key]
+        return data_dict
 
 
 
 if __name__ == '__main__':
-    A=File_Insert_To_PyDicLi('SJSJG0815.DBF',Data_Dict.relation_dict_sjsjg)
+    A=File_Insert_To_PyDicLi('jsmx02_jsq69.817',Data_Dict.jsmx_li,relation_li=True)
     print A
+    print A.file_to_dict(file_type="DBF2")
 
 

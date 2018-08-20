@@ -1,3 +1,5 @@
+#coding:utf-8
+
 '''
 ################################test for dbf reader###############################################
 from dbfpy import dbf
@@ -37,8 +39,30 @@ for k in relation_dict_sjsjg.keys():
 print dict['JGJSZH']
 print len(dict['JGJSZH'])
 
+
+from dbfpy import dbf
+from pandas import  DataFrame
+from Data_Dict import jsmx_li
+dbf=dbf.Dbf('jsmx02_jsq69.817',readOnly=True)
+dict={}
+
+for fn in dbf.fieldNames:
+    li=[]
+    for i in range(0, len(dbf)):
+        li.append(dbf[i][fn].strip())
+        dict[fn]=li
+
+del dict['FJSM']
+
+
+
+
+import os
+filename=os.listdir(os.getcwd())
+for fn in filename:
+    if fn.startswith('jsmx'):
+        print fn
 '''
 
-
-a={'ab':[1,23,31,1,2],'cd':[1,3,4,6,3],'hf':[14,2,1,2,5]}
-print a.keys()[0]
+dict={}
+print dict.setdefault('asdas',[])+['a','s']
