@@ -73,16 +73,17 @@ class File_Insert_To_PyDicLi(object):
                 data_dict[k] = list(frame[self.file_db_relation[k]])
         elif file_type=="DBF2":  #It's available when multifile_mode=True
             for file in file_li:
-                print file
+                print "Reading the file %s,waiting..." %file
                 dbffile = dbf.Dbf(file, readOnly=True)
-                for fn in dbffile.fieldNames:
+                for fn in self.file_db_relation.keys():
                     li = []
                     for i in range(0, len(dbffile)):
-                        li.append(dbffile[i][fn].strip())
+                        li.append(str(dbffile[i][self.file_db_relation[fn]]).strip())
                     data_dict[fn]=data_dict.setdefault(fn,[])+li
         else:
             raise Exception, 'Invalid file type!'
         if not del_key=='':
+            print data_dict
             del data_dict[del_key]
         return data_dict
 
