@@ -34,4 +34,8 @@ sjsmx_li=[
 'MXFJSM','MXBYBZ',
 ]
 
+tgdxw_li=['L_ZTBH','L_LB','VC_CODE','L_SCLB'
+]
+
+tfundinfo_li=['L_FUNDID','VC_CODE','VC_NAME','VC_TGR']
 

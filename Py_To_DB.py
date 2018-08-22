@@ -13,6 +13,7 @@ class Mysql_DB(object):
     def __init__(self,insert_from_data,insert_to_dbtable):
         self.insert_from_data=insert_from_data
         self.insert_to_dbtable=insert_to_dbtable
+        print 'Start inserting to Database... '
 
     def connect_wxremit_db(self,host='localhost',port=3306,user='root',password='1026',database='test1'):
         return pymysql.connect(host=host,

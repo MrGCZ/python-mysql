@@ -19,9 +19,22 @@ class FilePath(object):
                     result_file_li.append(self.tradepath+file)
             self.result_file_dic[file_short_name.lower()]=result_file_li
 
+class FilePath_Fundinfo(FilePath):
+    def __init__(self):
+        FilePath.__init__(self)
+        self.file_short_name_li=['t_gdxw','tfundinfo']
+        self.tradepath=os.getcwd()+ "\\Fundinfo\\"
+        self.result_file_dic={}
+
+
 
 
 if __name__ == '__main__':
+    '''
     fi=FilePath()
+    fi.find_the_file_path()
+    print fi.result_file_dic
+    '''
+    fi=FilePath_Fundinfo()
     fi.find_the_file_path()
     print fi.result_file_dic

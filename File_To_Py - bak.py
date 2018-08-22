@@ -14,15 +14,15 @@ import os
 
 class File_Insert_To_PyDicLi(object):
 
-    def __init__(self,filelist,file_db_relation,relation_li=False):
-        self.filelist=filelist
+    def __init__(self,filename,file_db_relation,relation_li=False):
+        self.filename=filename
         if relation_li==False:
             self.file_db_relation = file_db_relation
         else:
             self.file_db_relation=self.litodic(file_db_relation)
 
     def __str__(self):
-        show_name= 'From file %s in relation with %s' % (self.filelist,self.file_db_relation)
+        show_name= 'From file %s in relation with %s' % (self.filename,self.file_db_relation)
         return show_name
 
     @staticmethod
@@ -51,35 +51,28 @@ class File_Insert_To_PyDicLi(object):
                         del dict[k][i]
 
         data_dict = {}
-        '''
         file_li=[]
         if multifile_mode==True:
             filename = os.listdir(os.getcwd())
             for fn in filename:
                 if fn.startswith(self.filename):
                     file_li.append(fn)
-        '''
 
-
-        if file_type == 'Excel' and multifile_mode==False:
-            filename=self.filelist[0]
-            print "Reading the file %s,waiting..." % filename
-            data = xlrd.open_workbook(filename)
+        if file_type == 'Excel':
+            data = xlrd.open_workbook(self.filename)
             table = data.sheet_by_index(0)
             for key in self.file_db_relation.keys():
                 data_dict[key] = table.col_values(find_the_column(table, self.file_db_relation[key]))[1:]
                 #[1:] cause first row is always title.
             if clear_null == 1:
                 dict_null_clear(data_dict, clear_num_key)
-        elif file_type == "DBF" and multifile_mode==False:
-            filename=self.filelist[0]
-            print "Reading the file %s,waiting..." % filename
-            dbffile = DBF(filename)
+        elif file_type == "DBF":
+            dbffile = DBF(self.filename)
             frame = DataFrame(iter(dbffile))
             for k in self.file_db_relation.keys():
                 data_dict[k] = list(frame[self.file_db_relation[k]])
-        elif file_type=="DBF2" and multifile_mode==True:  #It's available when multifile_mode=True
-            for file in self.filelist:
+        elif file_type=="DBF2":  #It's available when multifile_mode=True
+            for file in file_li:
                 print "Reading the file %s,waiting..." %file
                 dbffile = dbf.Dbf(file, readOnly=True)
                 for fn in self.file_db_relation.keys():
@@ -90,7 +83,7 @@ class File_Insert_To_PyDicLi(object):
         else:
             raise Exception, 'Invalid file type!'
         if not del_key=='':
-            #print data_dict
+            print data_dict
             del data_dict[del_key]
         return data_dict
 
