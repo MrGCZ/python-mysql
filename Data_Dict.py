@@ -39,3 +39,10 @@ tgdxw_li=['L_ZTBH','L_LB','VC_CODE','L_SCLB'
 
 tfundinfo_li=['L_FUNDID','VC_CODE','VC_NAME','VC_TGR']
 
+sjsfx_li=['FXJSZH','FXTGDY','FXZQDM','FXZQZH','FXYWLB','FXDDBH','FXWTGS','FXZJJE','FXCWDH',
+          'FXFSRQ','FXBYBZ']
+
+
+
+zqbd_li=['SCDM','QSBH','ZQZH','XWH','ZQDM','ZQLB','LTLX','QYLB','GPNF',
+'BDSL','BDLX','BDRQ','SL']

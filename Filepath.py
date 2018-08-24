@@ -6,7 +6,7 @@ from dbfpy import dbf
 class FilePath(object):
     def __init__(self,inputdate='20180817'):
         self.inputdate=inputdate
-        self.file_short_name_li=['JSMX','sjsjg','sjsmx']
+        self.file_short_name_li=['JSMX','sjsjg','sjsmx','sjsfx','zqbd']   #支持的文件类型
         self.tradepath=os.getcwd()+ "\\Data_File\\" + inputdate+ u"\\交易所数据\\"
         self.result_file_dic={}
 
@@ -30,7 +30,7 @@ class FilePath_Fundinfo(FilePath):
 
 
 if __name__ == '__main__':
-    '''
+
     fi=FilePath()
     fi.find_the_file_path()
     print fi.result_file_dic
@@ -38,3 +38,4 @@ if __name__ == '__main__':
     fi=FilePath_Fundinfo()
     fi.find_the_file_path()
     print fi.result_file_dic
+    '''

@@ -51,15 +51,6 @@ class File_Insert_To_PyDicLi(object):
                         del dict[k][i]
 
         data_dict = {}
-        '''
-        file_li=[]
-        if multifile_mode==True:
-            filename = os.listdir(os.getcwd())
-            for fn in filename:
-                if fn.startswith(self.filename):
-                    file_li.append(fn)
-        '''
-
 
         if file_type == 'Excel' and multifile_mode==False:
             filename=self.filelist[0]
